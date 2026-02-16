@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const sql = neon(process.env.DATABASE_URL);
+        const sql = neon(process.env.NETLIFY_DATABASE_URL || process.env.DATABASE_URL);
         const data = JSON.parse(event.body);
 
         // Basic Validation
