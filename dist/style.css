@@ -353,7 +353,9 @@ body {
 
 .dashboard-image-container {
     width: 100%;
-    /* Removed max-width for full page view */
+    max-width: 480px;
+    /* Mobile first constraint */
+    margin: 0 auto;
     background: #fff;
     min-height: 100vh;
 }
@@ -370,7 +372,7 @@ body {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(45deg, #FFD700, #FFA500);
+    background: linear-gradient(180deg, #2b8cff 0%, #0061ff 100%);
     color: #fff;
     padding: 15px 30px;
     border-radius: 50px;
