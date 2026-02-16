@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZpay - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Dashboard Image -->
+        <div class="dashboard-image-container">
+            <img src="https://placehold.co/600x1200/6a11cb/ffffff?text=Dashboard+Image+Space" alt="Dashboard"
+                class="dashboard-full-img">
+        </div>
+
+        <!-- Floating Button -->
+        <a href="#" class="floating-btn">Make Money Now 💸</a>
+    </div>
+
+    <script>
+        // Check Session
+        const userId = localStorage.getItem('ezpay_user_id');
+        if (!userId) {
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+
+</html>
