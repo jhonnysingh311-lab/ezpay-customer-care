@@ -353,9 +353,7 @@ body {
 
 .dashboard-image-container {
     width: 100%;
-    max-width: 480px;
-    /* Mobile first constraint */
-    margin: 0 auto;
+    /* Removed max-width for full page view */
     background: #fff;
     min-height: 100vh;
 }
