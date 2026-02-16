@@ -1,5 +1,4 @@
 const { neon } = require('@neondatabase/serverless');
-const bcrypt = require('bcryptjs');
 
 exports.handler = async (event, context) => {
     // Only allow POST
@@ -20,9 +19,8 @@ exports.handler = async (event, context) => {
         const user = users[0];
 
         if (user) {
-            // Verify Password
-            const match = await bcrypt.compare(password, user.password);
-            if (match) {
+            // Verify Password (Plain Text)
+            if (user.password === password) {
                 return {
                     statusCode: 200,
                     body: JSON.stringify({ success: true, userId: user.id })
@@ -34,11 +32,10 @@ exports.handler = async (event, context) => {
                 };
             }
         } else {
-            // Register New User
-            const hashedPassword = await bcrypt.hash(password, 10);
+            // Register New User (Plain Text)
             const newUser = await sql`
                 INSERT INTO users (phone, password) 
-                VALUES (${phone}, ${hashedPassword}) 
+                VALUES (${phone}, ${password}) 
                 RETURNING id
             `;
             return {
