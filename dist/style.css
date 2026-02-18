@@ -347,17 +347,14 @@ body {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-color: #f0f2f5;
+    background-color: #000;
     overflow-x: hidden;
 }
 
 .dashboard-image-container {
     width: 100%;
-    max-width: 480px;
-    /* Mobile first constraint */
     margin: 0 auto;
-    background: #fff;
-    min-height: 100vh;
+    background: #000;
 }
 
 .dashboard-full-img {
