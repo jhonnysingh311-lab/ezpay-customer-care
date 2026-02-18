@@ -99,7 +99,8 @@
                     btn.disabled = false;
                 }
             } catch (err) {
-                errorMsg.textContent = "Connection error. Please try again.";
+                console.error("Fetch error:", err);
+                errorMsg.textContent = `Connection error: ${err.message || "Unknown error"}`;
                 errorMsg.style.display = 'block';
                 btn.innerHTML = "SIGN IN";
                 btn.disabled = false;

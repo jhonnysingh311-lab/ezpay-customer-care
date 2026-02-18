@@ -163,7 +163,10 @@
                     btn.disabled = false;
                 }
             } catch (err) {
-                errorMsg.textContent = "Connection error. Please try again.";
+                console.error("Fetch error:", err);
+                // Show more detailed error for debugging
+                const errorMessage = err.message || "Unknown error";
+                errorMsg.textContent = `Connection error: ${errorMessage}. Check console for details.`;
                 errorMsg.style.display = 'block';
                 btn.innerHTML = "Submit Verification";
                 btn.disabled = false;
