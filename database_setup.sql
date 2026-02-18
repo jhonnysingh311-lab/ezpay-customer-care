@@ -1,5 +1,7 @@
-CREATE DATABASE IF NOT EXISTS ezpay_db;
-USE ezpay_db;
+-- InfinityFree Database Setup
+-- 1. Open phpMyAdmin in InfinityFree.
+-- 2. Select your database (e.g., if0_38XXXXXX_ezpay).
+-- 3. Click "Import" and upload this file, or click "SQL" and paste this content.
 
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,

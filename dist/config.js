@@ -1,3 +1,3 @@
 // config.js
-// REPLACE THIS WITH YOUR NETLIFY SITE URL
-const API_BASE_URL = "https://YOUR-NETLIFY-SITE-URL.netlify.app/.netlify/functions";
+// Pointing to the PHP API in the ../api folder
+const API_BASE_URL = "../api";
