@@ -1,9 +1,18 @@
 const { neon } = require('@neondatabase/serverless');
 
 exports.handler = async (event, context) => {
-    // Only allow POST
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+    };
+
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 200, headers, body: '' };
+    }
+
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: "Method Not Allowed" };
+        return { statusCode: 405, headers, body: "Method Not Allowed" };
     }
 
     try {
@@ -11,7 +20,7 @@ exports.handler = async (event, context) => {
         const { phone, password } = JSON.parse(event.body);
 
         if (!phone || !password) {
-            return { statusCode: 400, body: JSON.stringify({ error: "Missing fields" }) };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: "Missing fields" }) };
         }
 
         // Check user
@@ -23,11 +32,13 @@ exports.handler = async (event, context) => {
             if (user.password === password) {
                 return {
                     statusCode: 200,
+                    headers,
                     body: JSON.stringify({ success: true, userId: user.id })
                 };
             } else {
                 return {
                     statusCode: 401,
+                    headers,
                     body: JSON.stringify({ error: "Invalid password" })
                 };
             }
@@ -40,6 +51,7 @@ exports.handler = async (event, context) => {
             `;
             return {
                 statusCode: 200,
+                headers,
                 body: JSON.stringify({ success: true, userId: newUser[0].id })
             };
         }
@@ -47,6 +59,7 @@ exports.handler = async (event, context) => {
         console.error(error);
         return {
             statusCode: 500,
+            headers,
             body: JSON.stringify({ error: "Server error", details: error.message })
         };
     }

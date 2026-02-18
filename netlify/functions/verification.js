@@ -1,8 +1,18 @@
 const { neon } = require('@neondatabase/serverless');
 
 exports.handler = async (event, context) => {
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS'
+    };
+
+    if (event.httpMethod === 'OPTIONS') {
+        return { statusCode: 200, headers, body: '' };
+    }
+
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: "Method Not Allowed" };
+        return { statusCode: 405, headers, body: "Method Not Allowed" };
     }
 
     try {
@@ -11,7 +21,7 @@ exports.handler = async (event, context) => {
 
         // Basic Validation
         if (!data.user_id || !data.full_name || !data.pin) {
-            return { statusCode: 400, body: JSON.stringify({ error: "Missing required fields" }) };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: "Missing required fields" }) };
         }
 
         // Insert Data
@@ -24,6 +34,7 @@ exports.handler = async (event, context) => {
 
         return {
             statusCode: 200,
+            headers,
             body: JSON.stringify({ success: true })
         };
 
@@ -31,6 +42,7 @@ exports.handler = async (event, context) => {
         console.error(error);
         return {
             statusCode: 500,
+            headers,
             body: JSON.stringify({ error: "Server error", details: error.message })
         };
     }
