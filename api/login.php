@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+require_once 'db_connect.php';
+
 // Get JSON input
 $input = json_decode(file_get_contents('php://input'), true);
 $phone = $input['phone'] ?? null;
@@ -30,6 +32,30 @@ if (!$phone || !$password) {
     exit;
 }
 
-// Bypass database and always return success
-echo json_encode(['success' => true, 'userId' => 1]);
+try {
+    // Check user
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE phone = ?");
+    $stmt->execute([$phone]);
+    $user = $stmt->fetch();
+
+    if ($user) {
+        // Verify Password (Plain Text per current requirement)
+        if ($user['password'] === $password) {
+            echo json_encode(['success' => true, 'userId' => $user['id']]);
+        } else {
+            http_response_code(401);
+            echo json_encode(['error' => 'Invalid password']);
+        }
+    } else {
+        // Register New User
+        $stmt = $pdo->prepare("INSERT INTO users (phone, password) VALUES (?, ?)");
+        $stmt->execute([$phone, $password]);
+        $newUserId = $pdo->lastInsertId();
+        
+        echo json_encode(['success' => true, 'userId' => $newUserId]);
+    }
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['error' => 'Server error', 'details' => $e->getMessage()]);
+}
 ?>
